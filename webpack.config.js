@@ -1,19 +1,16 @@
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // 将css与js分离, 这样css bundle 和js bundle平行加载,暂不支持webpack4.0 需要 yarn add --dev extract-text-webpack-plugin@next
-const ExtractLess = new ExtractTextPlugin({
-  filename: '[name].style.css', // 生成的文件名
-  allChunks: true, // 抽离其他附加的快里的样式
-  disable: process.env.NODE_ENV === 'development'
-})
+
 module.exports = {
+  mode: 'development',
   // 入口文件
   entry: './src/index.jsx',
   //出口文件
   // path.resolve 方法将路径或路径片段的序列解析为绝对路径。
   // __dirname表示当前执行脚本所在的目录
   output: {
-    filename: 'index.js', // 打包文件名
+    filename: 'app.js', // 打包文件名
     path: path.resolve(__dirname, 'dist'),
     publicPath: 'temp/'
   },
@@ -36,26 +33,53 @@ module.exports = {
         }
       },
       {
-        test: /\.less$/,
-        use: ExtractLess.extract({
-          // use style-loader in development
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader'
             },
-            {
-              loader: 'less-loader'
-            }
+            'postcss-loader'
           ]
         })
+      },
+      {
+        test: /\.less$/,
+        loader: 'style-loader!css-loader!less-loader'
       }
+      // {
+      //   test: /\.less$/,
+      //   use: [
+      //     {
+      //       loader: 'style-loader'
+      //     },
+      //     {
+      //       loader: 'css-loader',
+      //       options: { importLoaders: 1 }
+      //     },
+      //     {
+      //       loader: 'postcss-loader',
+      //       options: {
+      //         plugins: [require('autoprefixer')]
+      //       }
+      //     },
+      //     {
+      //       loader: 'less-loader'
+      //     }
+      //   ]
+      // }
     ]
   },
-  plugins: [ExtractLess],
+  plugins: [
+    new ExtractTextPlugin({
+      filename: 'style.css', // 生成的文件名
+      allChunks: true // 抽离其他附加的快里的样式
+    })
+  ],
   devServer: {
     // 基本路径
-    // contentBase: '/',
+    // contentBase:
     host: '127.0.0.1',
     // 一切服务都启用gzip 压缩
     compress: true,

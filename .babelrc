@@ -1,4 +1,16 @@
 {
   "plugins": [["transform-runtime"]],
-  "presets": ["env", "stage-0", "es2015", "react"]
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 100 versions"]
+        }
+      }
+    ],
+    "stage-0",
+    "es2015",
+    "react"
+  ]
 }

@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // 将css与js分离, 这样css bundle 和js bundle平行加载,暂不支持webpack4.0 需要 yarn add --dev extract-text-webpack-plugin@next
 
 module.exports = {
-  mode: 'development',
+  // mode: 'development',
   // 入口文件
   entry: './src/index.jsx',
   //出口文件
@@ -32,45 +32,28 @@ module.exports = {
           loader: 'babel-loader'
         }
       },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'postcss-loader'
-            }
-          ]
-        })
-      },
+
       {
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader'
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')]
+            }
+          },
+          {
+            loader: 'less-loader'
+          }
+        ]
       }
-      // {
-      //   test: /\.less$/,
-      //   use: [
-      //     {
-      //       loader: 'style-loader'
-      //     },
-      //     {
-      //       loader: 'css-loader',
-      //       options: { importLoaders: 1 }
-      //     },
-      //     {
-      //       loader: 'postcss-loader',
-      //       options: {
-      //         plugins: [require('autoprefixer')]
-      //       }
-      //     },
-      //     {
-      //       loader: 'less-loader'
-      //     }
-      //   ]
-      // }
     ]
   },
   plugins: [

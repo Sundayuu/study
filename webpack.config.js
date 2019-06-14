@@ -1,4 +1,5 @@
 const path = require('path')
+const HappyPack = require('happypack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // 将css与js分离, 这样css bundle 和js bundle平行加载,暂不支持webpack4.0 需要 yarn add --dev extract-text-webpack-plugin@next
 

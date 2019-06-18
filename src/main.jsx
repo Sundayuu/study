@@ -6,6 +6,8 @@ import {
   Switch,
   Redirect // 页面重定向
 } from 'react-router-dom' // Router路由器,Route路由, NavLink路由导航
+const createHistory = require('history').createBrowserHistory
+const history = createHistory()
 import Home from './Home'
 import My from './my'
 import Mall from './mall'
@@ -33,7 +35,7 @@ const NavBar = () => (
 export default class App extends Component {
   render() {
     return (
-      <Router basename="demo">
+      <Router>
         <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />

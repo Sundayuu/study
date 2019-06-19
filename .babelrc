@@ -1,5 +1,15 @@
 {
-  "plugins": ["transform-runtime", "transform-class-properties"],
+  "plugins": [
+    "transform-runtime",
+    "transform-class-properties",
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ]
+  ],
   "presets": [
     "react",
     "stage-0",

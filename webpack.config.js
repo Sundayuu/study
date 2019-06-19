@@ -13,8 +13,8 @@ module.exports = {
   // __dirname表示当前执行脚本所在的目录
   output: {
     filename: 'index-[hash].js', // 打包文件名
-    path: path.resolve(__dirname, 'dist'),
-    chunkFilename: 'index-[chunkhash].js'
+    path: path.resolve(__dirname, 'dist')
+    // chunkFilename: 'index-[chunkhash].js'
   },
   // devtool: 'source-map',
   // 引入文件省略后缀
@@ -24,7 +24,7 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, './src/components'),
       images: path.resolve(__dirname, './images'),
-      utils: path.resolve(__dirname, './utils')
+      kit: path.resolve(__dirname, './kit')
     }
   },
   module: {
@@ -62,13 +62,36 @@ module.exports = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'less-loader']
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'less-loader'
+            }
+          ]
         })
+      },
+      {
+        test: /\.css/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          }
+        ]
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].style.css'),
+    new ExtractTextPlugin({
+      filename: getPath => {
+        return getPath('css/[name].css').replace('css/js', 'css')
+      },
+      allChunks: true
+    }),
 
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -81,8 +104,8 @@ module.exports = {
       cacheGroups: {
         commons: {
           name: 'vendor',
-          chunks: 'initial',
-          filename: '[name].[chunkhash].js'
+          chunks: 'initial'
+          // filename: '[name].[chunkhash].js'
         }
       }
     }

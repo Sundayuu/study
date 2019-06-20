@@ -7,10 +7,9 @@ import {
   Redirect // 页面重定向
 } from 'react-router-dom' // Router路由器,Route路由, NavLink路由导航
 const createHistory = require('history').createBrowserHistory
-const history = createHistory()
-import Home from './Home'
+import Home from '../Home'
 import My from './my'
-import Mall from './mall'
+import Mall from '../mall'
 import NotFund from './not-fund'
 import PathParams from './path-params'
 const NavBar = () => (

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
-import homeRouters from './router'
+import homeRouters from '../router'
 const RouteWithSubRoutes = route => {
   return (
     <Route
@@ -19,7 +19,7 @@ const Example = () => {
             <Link to="/login">登录</Link>
           </li>
           <li>
-            <Link to="/">主页</Link>
+            <Link to="/home">主页</Link>
           </li>
         </ul>
         <Switch>

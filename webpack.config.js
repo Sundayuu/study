@@ -115,6 +115,7 @@ module.exports = {
     host: '127.0.0.1',
     // 一切服务都启用gzip 压缩
     compress: true,
+    historyApiFallback: true,
     port: 9999,
     hot: true
   }
